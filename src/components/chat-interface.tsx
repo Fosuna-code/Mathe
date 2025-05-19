@@ -104,7 +104,7 @@ export function ChatInterface() {
     <div className="flex justify-center items-center min-h-screen bg-secondary p-4">
       <Card className="w-full max-w-2xl shadow-lg rounded-lg overflow-hidden">
         <CardHeader className="bg-primary text-primary-foreground">
-          <CardTitle className="text-lg font-semibold">Carmate AI Assistant</CardTitle>
+          <CardTitle className="text-lg font-semibold">Math AI Assistant</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <ScrollArea className="h-[500px] p-4" ref={scrollAreaRef}>
@@ -180,7 +180,7 @@ export function ChatInterface() {
             <Input
               ref={inputRef}
               type="text"
-              placeholder="Ask about cars..."
+              placeholder="Ask about Maths..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
