@@ -10,6 +10,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { handleChatMessage, handleFeedback, type ChatMessage } from '@/app/actions';
 import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
+import Markdown from 'react-markdown'
+
 
 // Define message types including feedback state
 interface DisplayMessage extends ChatMessage {
@@ -118,7 +120,7 @@ export function ChatInterface() {
                     </Avatar>
                   )}
                   <div className={`max-w-[75%] rounded-lg p-3 shadow-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <Markdown>{message.content}</Markdown>
                     {message.role === 'model' && message.feedback === null && ( // Only show feedback buttons if feedback hasn't been given
                       <div className="flex gap-2 mt-2">
                         <Button
