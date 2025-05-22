@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect, useTransition } from 'react';
@@ -10,7 +11,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { handleChatMessage, handleFeedback, type ChatMessage } from '@/app/actions';
 import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
-import Markdown from 'react-markdown'
+import Markdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 
 // Define message types including feedback state
@@ -115,12 +119,14 @@ export function ChatInterface() {
                 <div key={message.id} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
                   {message.role === 'model' && (
                     <Avatar className="w-8 h-8 border">
-                      <AvatarImage src="https://picsum.photos/seed/carmate/40/40" alt="Carmate AI" />
+                      <AvatarImage src="https://picsum.photos/seed/carmate/40/40" alt="Carmate AI" data-ai-hint="robot face"/>
                       <AvatarFallback>AI</AvatarFallback>
                     </Avatar>
                   )}
                   <div className={`max-w-[75%] rounded-lg p-3 shadow-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
-                    <Markdown>{message.content}</Markdown>
+                    <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+                      {message.content}
+                    </Markdown>
                     {message.role === 'model' && message.feedback === null && ( // Only show feedback buttons if feedback hasn't been given
                       <div className="flex gap-2 mt-2">
                         <Button
@@ -157,7 +163,7 @@ export function ChatInterface() {
                   </div>
                   {message.role === 'user' && (
                     <Avatar className="w-8 h-8 border">
-                      <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="User" />
+                      <AvatarImage src="https://picsum.photos/seed/user/40/40" alt="User" data-ai-hint="person face" />
                       <AvatarFallback>U</AvatarFallback>
                     </Avatar>
                   )}
@@ -166,7 +172,7 @@ export function ChatInterface() {
               {isPending && messages[messages.length - 1]?.role === 'user' && (
                 <div className="flex items-start gap-3">
                   <Avatar className="w-8 h-8 border">
-                    <AvatarImage src="https://picsum.photos/seed/carmate/40/40" alt="Carmate AI" />
+                    <AvatarImage src="https://picsum.photos/seed/carmate/40/40" alt="Carmate AI" data-ai-hint="robot face" />
                     <AvatarFallback>AI</AvatarFallback>
                   </Avatar>
                   <div className="rounded-lg p-3 bg-muted text-muted-foreground shadow-sm">

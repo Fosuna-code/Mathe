@@ -1,4 +1,4 @@
-# **App Name**: Carmate AI
+# **App Name**: Mathe AI
 
 ## Core Features:
 
@@ -16,5 +16,5 @@
 - Subtle animations for loading states and transitions to enhance the user experience.
 
 ## Original User Request:
-Create a chat bot trained with open ai api and a reinforcement learning to car selling
+Create a chat bot trained with open ai api and a reinforcement learning to math teaching
   
