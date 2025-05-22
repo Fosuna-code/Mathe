@@ -11,7 +11,7 @@ import { handleChatMessage, handleFeedback, type ChatMessage } from '@/app/actio
 import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
 import Markdown from 'react-markdown'
-
+import ReactKatex from '@pkasila/react-katex';
 
 // Define message types including feedback state
 interface DisplayMessage extends ChatMessage {
@@ -51,7 +51,8 @@ export function ChatInterface() {
       try {
         const history = messages.map(({ role, content }) => ({ role, content }));
         const response = await handleChatMessage(currentInput, history);
-        const newModelMessage: DisplayMessage = { id: Date.now() + 1, role: 'model', content: response, feedback: null };
+        //divide the response in sections to apply LaTeX formatting according to the initial prompt
+        const newModelMessage: DisplayMessage = { id: Date.now() + 1, role: 'model', content: response, feedback: null};
         setMessages(prev => [...prev, newModelMessage]);
       } catch (error) {
         console.error("Failed to send message:", error);
@@ -101,7 +102,7 @@ export function ChatInterface() {
       sendMessage();
     }
   };
-
+  console.log(messages)
   return (
     <div className="flex justify-center items-center min-h-screen bg-secondary p-4">
       <Card className="w-full max-w-2xl shadow-lg rounded-lg overflow-hidden">
@@ -112,6 +113,7 @@ export function ChatInterface() {
           <ScrollArea className="h-[500px] p-4" ref={scrollAreaRef}>
             <div className="space-y-4">
               {messages.map((message) => (
+                
                 <div key={message.id} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
                   {message.role === 'model' && (
                     <Avatar className="w-8 h-8 border">
@@ -120,7 +122,12 @@ export function ChatInterface() {
                     </Avatar>
                   )}
                   <div className={`max-w-[75%] rounded-lg p-3 shadow-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
-                    <Markdown>{message.content}</Markdown>
+                    {
+                      message.content.split(/\&\&\&LATEX/).map(it => {
+                        if(it === "&&&") return
+                        return (/[^&&&]/).test(it) ? (<ReactKatex>{"\n" + it.split(/&&&/g).join('').trim() + "\n"}</ReactKatex>) : <Markdown>{"\n" + it + "\n"}</Markdown>
+                      }) 
+                    }
                     {message.role === 'model' && message.feedback === null && ( // Only show feedback buttons if feedback hasn't been given
                       <div className="flex gap-2 mt-2">
                         <Button

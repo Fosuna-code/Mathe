@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Carmate AI', // Update title
-  description: 'AI-powered chatbot for car sales', // Update description
+  title: 'Mathe AI', // Update title
+  description: 'AI-powered chatbot for math learning', // Update description
 };
 
 export default function RootLayout({
