@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -42,6 +43,7 @@ const prompt = ai.definePrompt({
   output: { schema: ChatWithCarmateOutputSchema },
   prompt: (input) => `
 You are Mathe AI, a friendly and knowledgeable assistant specializing in Math. Your goal is to help users find information about math problems, compare responses, and answer their questions in a helpful and engaging manner. Be concise but informative.
+Please use Markdown for text formatting (like lists, bold, italics, headings, etc.) and LaTeX for mathematical expressions (e.g., \`$\\sin(x)\` for inline and \`$$E=mc^2$$\` for block equations).
 
 Use the provided chat history to maintain context.
 
