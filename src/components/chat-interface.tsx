@@ -33,8 +33,17 @@ export function ChatInterface() {
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    const scrollRoot = scrollAreaRef.current; // This is ScrollAreaPrimitive.Root
+    if (scrollRoot) {
+      // The Viewport is the direct child of the ScrollArea root that actually scrolls
+      const viewport = scrollRoot.children[0] as HTMLDivElement;
+      if (viewport) {
+        // Using requestAnimationFrame ensures the DOM has updated dimensions
+        // before we try to scroll, which is important for large messages.
+        requestAnimationFrame(() => {
+          viewport.scrollTop = viewport.scrollHeight;
+        });
+      }
     }
   }, [messages]);
 
